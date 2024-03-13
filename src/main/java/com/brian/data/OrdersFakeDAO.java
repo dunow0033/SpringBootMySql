@@ -1,6 +1,10 @@
 package com.brian.data;
 
 import java.util.ArrayList;
+import com.brian.models.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +14,9 @@ import com.brian.models.OrderModel;
 
 @Repository
 public class OrdersFakeDAO implements OrdersDataAccessInterface {
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 	
 	List<OrderModel> orders = new ArrayList<OrderModel>();
 
@@ -38,7 +45,9 @@ public class OrdersFakeDAO implements OrdersDataAccessInterface {
 	@Override
 	public List<OrderModel> getOrders() {
 		// TODO Auto-generated method stub
-		return null;
+		List<OrderModel> results = jdbcTemplate.query("SELECT * FROM ORDERS", new OrdersMapper());
+		
+		return results;
 	}
 
 	@Override
